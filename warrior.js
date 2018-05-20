@@ -9,6 +9,10 @@ var warrior= {
                 creep.moveTo(hostileCreep);
             }
         }
+        else{
+            //get out of the way
+            creep.moveTo(Game.flags['Flag1']);
+        }
     }
 }
 

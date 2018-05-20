@@ -9,7 +9,10 @@ var harvester = {
                 (struct)=>{
                     return struct.structureType == STRUCTURE_CONTAINER && _.sum(struct.store) < struct.storeCapacity;
                 }
-            })[0];
+            });
+            if (!dropPoint){
+                 creep.moveTo(Game.flags['Flag1']);
+            }
         }
 
         //can still pick up more

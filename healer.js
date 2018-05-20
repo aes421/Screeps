@@ -13,6 +13,10 @@ var healer= {
                 creep.moveTo(damagedCreep);
             }
         }
+        else{
+            //get out of the way
+            creep.moveTo(Game.flags['Flag1']);
+        }
         
     }
 }

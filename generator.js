@@ -2,7 +2,7 @@ var generator = {
     
     run: function(){
         const maxHarvesters = 4;
-        const maxUpgraders = 2;
+        const maxUpgraders = 1;
         const maxBuilders = 4;
         const maxWarriors = 3;
         const maxHealers = 2;
