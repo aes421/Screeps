@@ -4,23 +4,37 @@ var generator = {
         const maxHarvesters = 4;
         const maxUpgraders = 2;
         const maxBuilders = 4;
+        const maxWarriors = 3;
+        const maxHealers = 2;
 
         var harvesters = _.filter(Game.creeps, (creep)=> creep.memory.role == "harvester" );
         if (harvesters.length < maxHarvesters){
             Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], "Harvester" + Game.time, {memory: {role: "harvester"}});
-            displaySpawnInfo();
+            this.displaySpawnInfo();
         }
 
         var upgraders = _.filter(Game.creeps, (creep)=> creep.memory.role == "upgrader");
         if (upgraders.length < maxUpgraders){
             Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], "Upgrader" + Game.time, {memory: {role: "upgrader"}});
-            displaySpawnInfo();
+            this.displaySpawnInfo();
         }
 
         var builders = _.filter(Game.creeps, (creep)=> creep.memory.role == "builder");
         if (builders.length < maxBuilders){
             Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], "Builder" + Game.time, {memory: {role: "builder"}});
-            displaySpawnInfo();
+            this.displaySpawnInfo();
+        }
+
+        var warriors = _.filter(Game.creeps, (creep)=> creep.memory.role == "warrior");
+        if (warriors.length < maxWarriors){
+            Game.spawns['Spawn1'].spawnCreep([MOVE, ATTACK, ATTACK, ATTACK, TOUGH], "Warrior" + Game.time, {memory: {role: "warrior"}});
+            this.displaySpawnInfo();
+        }
+
+        var healers = _.filter(Game.creeps, (creep)=> creep.memory.role == "healer");
+        if (healers.length < maxHealers){
+            Game.spawns['Spawn1'].spawnCreep([MOVE, HEAL], "Healer" + Game.time, {memory: {role: "healer"}});
+            this.displaySpawnInfo();
         }
     },
 
