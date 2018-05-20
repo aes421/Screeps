@@ -1,4 +1,7 @@
-const maxHarvesters = 2;
+const harvester = require("harvester");
+const generator = require("generator");
+const upgrader = require("upgrader");
+const builder = require("builder");
 
 module.exports.loop = function () {
 
@@ -10,34 +13,20 @@ module.exports.loop = function () {
         }
     }
 
-    var harvesters = _.filter(Game.creeps, (creep)=> creep.memory.role == "harvester" );
-    if (harvesters.length < maxHarvesters){
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], "Harvester" + Game.time, {memory: {role: "harvester"}});
-        Game.spawns['Spawn1'].room.visual.text(
-            '🛠️' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1, 
-            Game.spawns['Spawn1'].pos.y, 
-            {align: 'left', opacity: 0.8});
-    }
-
-    for(var i in harvesters){
-        let creep = harvesters[i];
-        const energySource = creep.room.find(FIND_SOURCES)[0];
-        const spawn = creep.room.find(FIND_MY_SPAWNS)[0];
-
-        //can still pick up more
-        if (_.sum(creep.carry) < creep.carryCapacity){
-            //harvest if close enough, otherwise move to it and show the path
-            if(creep.harvest(energySource) == ERR_NOT_IN_RANGE){
-                creep.moveTo(energySource, {visualizePathStyle: {}});
-            }
+    //generate new creeps
+    generator.run();
+    
+    for(var name in Game.creeps){
+        let creep = Game.creeps[name]
+        if (creep.memory.role == "harvester"){
+            harvester.run(creep);
         }
-        //go drop at the spawn
-        else{
-            if(creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                creep.moveTo(spawn, {visualizePathStyle: {}});
-            }
+        else if (creep.memory.role == "upgrader"){
+            upgrader.run(creep);
         }
-
+        else if (creep.memory.role == "builder"){
+            builder.run(creep);
+        }
+        
     }
 }
