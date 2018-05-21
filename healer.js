@@ -10,7 +10,7 @@ var healer= {
         if (damagedCreep){
             damagedCreep = damagedCreep[0];
             if (creep.heal(damagedCreep) == ERR_NOT_IN_RANGE){
-                creep.moveTo(damagedCreep);
+                creep.moveTo(damagedCreep, {visualizePathStyle: {}});
             }
         }
         else{

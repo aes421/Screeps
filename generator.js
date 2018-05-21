@@ -1,11 +1,17 @@
 var generator = {
     
     run: function(){
-        const maxHarvesters = 4;
+        const maxHarvesters = 7;
         const maxUpgraders = 1;
         const maxBuilders = 4;
         const maxWarriors = 3;
         const maxHealers = 2;
+
+        var warriors = _.filter(Game.creeps, (creep)=> creep.memory.role == "warrior");
+        if (warriors.length < maxWarriors){
+            Game.spawns['Spawn1'].spawnCreep([MOVE, ATTACK, ATTACK, ATTACK, TOUGH], "Warrior" + Game.time, {memory: {role: "warrior"}});
+            this.displaySpawnInfo();
+        }
 
         var harvesters = _.filter(Game.creeps, (creep)=> creep.memory.role == "harvester" );
         if (harvesters.length < maxHarvesters){
@@ -25,12 +31,6 @@ var generator = {
             this.displaySpawnInfo();
         }
 
-        var warriors = _.filter(Game.creeps, (creep)=> creep.memory.role == "warrior");
-        if (warriors.length < maxWarriors){
-            Game.spawns['Spawn1'].spawnCreep([MOVE, ATTACK, ATTACK, ATTACK, TOUGH], "Warrior" + Game.time, {memory: {role: "warrior"}});
-            this.displaySpawnInfo();
-        }
-
         var healers = _.filter(Game.creeps, (creep)=> creep.memory.role == "healer");
         if (healers.length < maxHealers){
             Game.spawns['Spawn1'].spawnCreep([MOVE, HEAL], "Healer" + Game.time, {memory: {role: "healer"}});
@@ -46,6 +46,7 @@ var generator = {
                 Game.spawns['Spawn1'].pos.x + 1, 
                 Game.spawns['Spawn1'].pos.y, 
                 {align: 'left', opacity: 0.8});
+            console.log(`Generating: ${spawningCreep.memory.role}`);
         }
     }
 }
