@@ -8,15 +8,16 @@ var harvester = {
         if (dropPoint.energy === dropPoint.energyCapacity){
             console.log("Spawn is full");
             //spawn is full, work on some containers
-            dropPoint = creep.room.find(FIND_MY_STRUCTURES, {filter:
-                (struct)=>{
-                    return struct.structureType == STRUCTURE_CONTAINER && _.sum(struct.store) < struct.storeCapacity;
-                }
+            dropPoint = creep.room.find(FIND_STRUCTURES, {
+                filter: (struct)=> struct.structureType == STRUCTURE_CONTAINER  && _.sum(struct.store) < struct.storeCapacity
             });
-            if (!dropPoint.pos){
+            if (dropPoint){
+                dropPoint = dropPoint[0];
+            }
+            else{
                 console.log("harvester->builder");
                 builder.run(creep);
-                 //creep.moveTo(Game.flags['Flag1']);
+                 creep.moveTo(Game.flags['Flag1']);
             }
         }
 
@@ -29,6 +30,7 @@ var harvester = {
         }
         //go drop at the spawn
         else{
+            console.log(`Dropping at: ${dropPoint.structureType} (${dropPoint.id})`);
             if(creep.transfer(dropPoint, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                 //TODO look up noPathFinding Option
                 creep.moveTo(dropPoint, {visualizePathStyle: {}});
